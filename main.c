@@ -12,10 +12,13 @@ static int a_buf_size;
 
 static char * a_buffer; //The sound
 
-#define WORD_BREAK 200000
-#define CHAR_BREAK 100000
-#define MORSE_LONG 22050
-#define MORSE_SHORT 11025
+#define UNIT_SHORT 100000
+#define UNIT_SHORT_SECOND ((float) UNIT_SHORT / 1000000)
+#define UNIT_LONG UNIT_SHORT * 3
+#define UNIT_WORD UNIT_SHORT * 7
+#define SAMPLE_RATE 44100
+#define SAMPLE_SHORT UNIT_SHORT_SECOND * SAMPLE_RATE
+#define SAMPLE_LONG SAMPLE_SHORT * 3
 
 void freeSound()
 {
@@ -38,7 +41,7 @@ void initSound()
 	memset(&a_format, 0, sizeof(a_format));
 	a_format.bits = 16;
 	a_format.channels = 1;
-	a_format.rate = 44100;
+	a_format.rate = SAMPLE_RATE;
 	a_format.byte_format = AO_FMT_LITTLE;
 	
 	ao_append_option(&a_option, "quiet", NULL);
@@ -60,7 +63,7 @@ void initSound()
 	}
 }
 
-static void beep(size_t duration)
+static void beep(uint_32 duration)
 {
 	ao_play(a_device, a_buffer, duration);
 }
@@ -72,19 +75,20 @@ void morseBeepc(char x)
 	switch (x)
 	{
 		case '.':
-			beep(MORSE_SHORT);
-		break;
+			beep(SAMPLE_SHORT);
+			usleep(UNIT_SHORT * 2);
+		return;
 		case '-':
-			beep(MORSE_LONG);
-		break;
+			beep(SAMPLE_LONG);
+			usleep(UNIT_LONG + UNIT_SHORT);
+		return;
 		case '/':
-			usleep(WORD_BREAK);
-		break;
+			usleep(UNIT_WORD);
+		return;
 		case ' ':
-			usleep(CHAR_BREAK);
-		break;
+			usleep(UNIT_LONG);
+		return;
 	}
-	usleep(CHAR_BREAK);
 }
 
 void morseBeep(char * x)
@@ -216,7 +220,7 @@ int main(int argc, char **argv)
 			if(argi < argc)
 			{
 				fputs("/ ", stdout);
-				usleep(WORD_BREAK);
+				usleep(UNIT_WORD);
 			}
 			else
 				break;
