@@ -34,26 +34,26 @@ void initSound()
 	int a_sample;
 	float freq = 550.0;
 	int i;
-	
+
 	ao_initialize();
 	default_driver = ao_default_driver_id();
-	
+
 	memset(&a_format, 0, sizeof(a_format));
 	a_format.bits = 16;
 	a_format.channels = 1;
 	a_format.rate = SAMPLE_RATE;
 	a_format.byte_format = AO_FMT_LITTLE;
-	
+
 	ao_append_option(&a_option, "quiet", NULL);
-	
+
 	a_device = ao_open_live(default_driver, &a_format, a_option);
-	if (a_device == NULL) 
+	if (a_device == NULL)
 		return;
-		
+
 	a_buf_size = a_format.bits/4 * a_format.channels * a_format.rate;
 	a_buffer = calloc(a_buf_size, sizeof(char));
-	
-	for (i = 0; i < a_format.rate; i++) 
+
+	for (i = 0; i < a_format.rate; i++)
 	{
 		a_sample = (int)(0.75 * 32768.0 *
 			sin(2 * M_PI * freq * ((float) i/a_format.rate)));
@@ -102,7 +102,7 @@ void morseBeep(char * x)
 
 char * morseEncode(char * x)
 {
-	switch (tolower(*x)) 
+	switch (tolower(*x))
 	{
 	case 'a':
 		return ".- ";
@@ -156,6 +156,8 @@ char * morseEncode(char * x)
 		return "-.-- ";
 	case 'z':
 		return "--.. ";
+
+	//Digits
 	case '1':
 		return ".---- ";
 	case '2':
@@ -176,6 +178,54 @@ char * morseEncode(char * x)
 		return "----. ";
 	case '0':
 		return "----- ";
+
+	//Punctuation
+	case '&':
+		return ".-... ";
+
+	case '\'':
+		return ".----. ";
+
+	case '@':
+		return ".--.- ";
+
+	case ')':
+		return "-.--.- ";
+
+	case '(':
+		return "-.--. ";
+
+	case ':':
+		return "---... ";
+
+	case ',':
+		return "--..-- ";
+
+	case '=':
+		return "-...- ";
+
+	case '!':
+		return "-.-.-- ";
+
+	case '.':
+		return ".-.-.- ";
+
+	case '-':
+		return "-....- ";
+
+	case '+':
+		return ".-.-. ";
+
+	case '"':
+		return ".-..-. ";
+
+	case '?':
+		return "..--.. ";
+
+	case '/':
+		return "-..-. ";
+
+	//Space
 	case ' ':
 		return "/ ";
 	default:
