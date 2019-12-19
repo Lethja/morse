@@ -3,134 +3,143 @@
 #include <ctype.h>
 #include <unistd.h>
 
+char G_prosign = 0;
+
 char * morseEncode(char * x)
 {
 	switch (tolower(*x))
 	{
 	case 'a':
-		return ".- ";
+		return ".-";
 	case 'b':
-		return "-... ";
+		return "-...";
 	case 'c':
-		return "-.-. ";
+		return "-.-.";
 	case 'd':
-		return "-.. ";
+		return "-..";
 	case 'e':
-		return ". ";
+		return ".";
 	case 'f':
-		return "..-. ";
+		return "..-.";
 	case 'g':
-		return "--. ";
+		return "--.";
 	case 'h':
-		return ".... ";
+		return "....";
 	case 'i':
-		return ".. ";
+		return "..";
 	case 'j':
-		return ".--- ";
+		return ".---";
 	case 'k':
-		return "-.- ";
+		return "-.-";
 	case 'l':
-		return ".-.. ";
+		return ".-..";
 	case 'm':
-		return "-- ";
+		return "--";
 	case 'n':
-		return "-. ";
+		return "-.";
 	case 'o':
-		return "--- ";
+		return "---";
 	case 'p':
-		return ".--. ";
+		return ".--.";
 	case 'q':
-		return "--.- ";
+		return "--.-";
 	case 'r':
-		return ".-. ";
+		return ".-.";
 	case 's':
-		return "... ";
+		return "...";
 	case 't':
-		return "- ";
+		return "-";
 	case 'u':
-		return "..- ";
+		return "..-";
 	case 'v':
-		return "...- ";
+		return "...-";
 	case 'w':
-		return ".-- ";
+		return ".--";
 	case 'x':
-		return "-..- ";
+		return "-..-";
 	case 'y':
-		return "-.-- ";
+		return "-.--";
 	case 'z':
-		return "--.. ";
+		return "--..";
 
 	//Digits
 	case '1':
-		return ".---- ";
+		return ".----";
 	case '2':
-		return "..--- ";
+		return "..---";
 	case '3':
-		return "...-- ";
+		return "...--";
 	case '4':
-		return "....- ";
+		return "....-";
 	case '5':
-		return "..... ";
+		return ".....";
 	case '6':
-		return "-.... ";
+		return "-....";
 	case '7':
-		return "--... ";
+		return "--...";
 	case '8':
-		return "---.. ";
+		return "---..";
 	case '9':
-		return "----. ";
+		return "----.";
 	case '0':
-		return "----- ";
+		return "-----";
 
 	//Punctuation
 	case '&':
-		return ".-... ";
+		return ".-...";
 
 	case '\'':
-		return ".----. ";
+		return ".----.";
 
 	case '@':
-		return ".--.-. ";
+		return ".--.-.";
 
 	case ')':
-		return "-.--.- ";
+		return "-.--.-";
 
 	case '(':
-		return "-.--. ";
+		return "-.--.";
 
 	case ':':
-		return "---... ";
+		return "---...";
 
 	case ',':
-		return "--..-- ";
+		return "--..--";
 
 	case '=':
-		return "-...- ";
+		return "-...-";
 
 	case '!':
-		return "-.-.-- ";
+		return "-.-.--";
 
 	case '.':
-		return ".-.-.- ";
+		return ".-.-.-";
 
 	case '-':
-		return "-....- ";
+		return "-....-";
 
 	case '+':
-		return ".-.-. ";
+		return ".-.-.";
 
 	case '"':
-		return ".-..-. ";
+		return ".-..-.";
 
 	case '?':
-		return "..--.. ";
+		return "..--..";
 
 	case '/':
-		return "-..-. ";
+		return "-..-.";
 
 	//Space
 	case ' ':
-		return "/ ";
+	case '\n':
+		return "/";
+
+	//Prosign Mode
+	case '<': G_prosign = 1; return "";
+	case '>': G_prosign = 0; return "";
+
+	//Anything else we have no idea about
 	default:
 		return "#";
 	}
@@ -143,6 +152,8 @@ void morseArg(char * str)
 	{
 		char * m = morseEncode(stri);
 		fputs(m, stdout);
+		if(!G_prosign)
+			fputc(' ', stdout);
 		fflush(stdout);
 		stri++;
 	}
@@ -156,6 +167,8 @@ void morsePipe()
 	{
 		char * m = morseEncode(&t);
 		fputs(m, stdout);
+		if(!G_prosign)
+			fputc(' ', stdout);
 		fflush(stdout);
 	}
 }
