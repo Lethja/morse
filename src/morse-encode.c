@@ -132,7 +132,7 @@ char * morseEncode(char * x)
 	case ' ':
 		return "/ ";
 	default:
-		return "";
+		return "#";
 	}
 }
 
