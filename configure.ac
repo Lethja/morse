@@ -3,8 +3,8 @@
 
 AC_PREREQ([2.69])
 AC_INIT([morse], [0.1])
-AM_INIT_AUTOMAKE([-Wall foreign])
-AC_CONFIG_SRCDIR([main.c])
+AM_INIT_AUTOMAKE([-Wall foreign subdir-objects])
+AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_MACRO_DIRS([m4])
