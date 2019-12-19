@@ -145,6 +145,7 @@ char morseDecode(char * x)
 				}
 			break;
 		}
+	}
 		case 5:
 		{
 			switch (*it)
@@ -245,31 +246,103 @@ char morseDecode(char * x)
 				}
 			}
 			break;
-		}/*
+		}
 		case 6:
 		{
 			switch (*it)
 			{
-				switch (*it[1])
+				case '-':
+				switch (it[1])
 				{
+					case '-': // --
 					switch(it[2])
 					{
+						case '-': // ---
+						if(it[3] == '.' && it[4] == '.' && it[5] == '.')
+							return ':';
+						break;
+						case '.': // --.
 						switch(it[3])
+						{
+							case '.': // --..
+							switch(it[4])
+							{
+								case '-': if (it[5] == '-') return ',';
+								break;
+							}
+						}
+					}
+					case '.': // -.
+					switch(it[2])
+					{
+						case '-': // -.-
+						switch(it[3])
+						{
+							case '-': // -.--
+							switch(it[4])
+							{
+								case '.':
+								if(it[5] == '-') return ')';
+								break;
+							}
+							case '.': // -.-.
+								if(it[4] == '-' && it[5] == '-')
+									return '!';
+						}
+						case '.':
+						if(it[3] == '.' && it[4] == '.' && it[5] == '-')
+							return '-';
+						break;
+					}
+				}
+				case '.':
+				switch (it[1])
+				{
+					case '-': // .-
+					switch(it[2])
+					{
+						case '-': // .--
+						switch(it[3])
+						{
+							case '-': // .---
+							switch(it[4])
+							{
+								case '-': if(it[5] == '.') return '\'';
+								break;
+							}
+							case '.': // .--.
+							{
+								if(it[5] == '.') return '@';
+								break;
+							}
+						}
+						case '.': // .-.
 						{
 							switch(it[4])
 							{
-								case '-':
-									it[5] == '.' ?
-										return '' : return '';
-								case '.':
-									it[5] == '.' ?
-										return '' : return '';
+								case '.': if(it[5] == '-') return '.';
 							}
+						}
+					}
+					case '.': // ..
+					switch(it[3])
+					{
+						case '-': // ..-
+						switch(it[4])
+						{
+							case '.': if (it[5] == '.') return '?';
+							break;
+						}
+						case '.': // ...
+						switch(it[4])
+						{
+							case '-': if (it[5] == '.') return '"';
+							break;
 						}
 					}
 				}
 			}
-			break;*/
+			break;
 		}
 	}
 	return '#';
