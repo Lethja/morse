@@ -152,28 +152,41 @@ char morseDecode(char * x)
 				case '-':
 				switch (it[1])
 				{
-					case '-':
+					case '-': // --
 					switch(it[2])
 					{
-						case '-':
+						case '-': // ---
 						switch(it[3])
 						{
-							case '-':
+							case '-': // ----
 							switch(it[4])
 							{
 								case '-': return '0';
 								case '.': return '9';
 							}
-							case '.':
+							case '.': // ---.
 							if (it[4] == '.') return '8';
 						}
 						case '.': return '7';
 						break;
 					}
-					case '.':
+					case '.': // -.
 					switch(it[2])
 					{
-						case '.': return '6';
+						case '-':
+							if(it[3] == '-' && it[4] == '.')
+								return '(';
+						break;
+						case '.':  // -..
+						switch(it[3])
+						{
+							case '-': if(it[4] == '.') return '/';
+							case '.':
+							if(it[4] == '.')
+								return '6';
+							else
+								return '=';
+						}
 					}
 				}
 				case '.':
@@ -182,14 +195,22 @@ char morseDecode(char * x)
 					case '-': // .-
 					switch(it[2])
 					{
-						case '-':
+						case '-': // .--
 						switch(it[3])
 						{
-							case '-':
+							case '-': // .---
 							switch(it[4])
 							{
 								case '-': return '1';
 							}
+						}
+						case '.': // .-.
+						switch(it[3])
+						{
+							case '-': // .-.-
+								if(it[4] == '.') return '+';
+							case '.': // .-..
+								if(it[4] == '.') return '&';
 						}
 						break;
 					}
