@@ -53,6 +53,7 @@ static void morseArg(int argc, char **argv)
 		strcat(str, argv[i]);
 	}
 	char * m = morseCompress(str);
+	free(str);
 	fputs(m, stdout);
 	free(m);
 	fflush(stdout);
