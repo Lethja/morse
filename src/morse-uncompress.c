@@ -61,7 +61,7 @@ static void morsePipe()
 	while((t = fgetc(stdin)) != EOF)
 	{
 		char * m = morseUncompress(t);
-		p = realloc(p, strlen(m)+1);
+		p = realloc(p, strlen(p)+strlen(m)+1);
 		strcat(p, m);
 	}
 
