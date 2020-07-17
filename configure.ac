@@ -24,7 +24,7 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_CHECK_FUNCS([memset])
-
+AM_PROG_AR
 LT_INIT
 
 AC_OUTPUT

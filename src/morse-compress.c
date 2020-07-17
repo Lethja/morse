@@ -3,45 +3,7 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <stdlib.h>
-
-char * morseCompress(char * x)
-{
-	size_t s = strlen(x);
-	size_t c = s / 4;
-	int i = 6;
-	if(c < 1) c = 1;
-	char * r = calloc(c, sizeof(char));
-	char * it = r;
-	while (*x != '\0')
-	{
-		if (i < 0)
-		{
-			it++;
-			i = 6;
-		}
-		switch(*x)
-		{
-			case ' ':
-			default:
-				break;
-			case '.':
-				*it &= ~(1 << i+1);
-				*it |= 1 << i;
-			break;
-			case '-':
-				*it |= 1 << i+1;
-				*it &= ~(1 << i);
-			break;
-			case '/':
-				*it |= 1 << i+1;
-				*it |= 1 << i;
-			break;
-		}
-		i -= 2;
-		x++;
-	}
-	return r;
-}
+#include "include/libmorse.h"
 
 static void morseArg(int argc, char **argv)
 {

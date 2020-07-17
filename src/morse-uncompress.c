@@ -4,8 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdint.h>
-
-#define BIT(var,pos) ((var) & (1<<(pos)))
+#include "include/libmorse.h"
 
 static void morseStrTrim(char * x)
 {
@@ -26,31 +25,6 @@ static void morseStrTrim(char * x)
 			si--;
 		}
 	}
-}
-
-char * morseUncompress(char x)
-{
-	if(x == '\0')
-		return "";
-	char * r = malloc(5);
-	r[4] = '\0';
-	size_t it = 0;
-	for(char i = 7; i >= 0; i -= 2)
-	{
-		if(BIT(x,i) > 0)
-		{
-			if(BIT(x,i - 1) > 0)
-				r[it] = '/';
-			else
-				r[it] = '-';
-		}
-		else if(BIT(x,i - 1) > 0)
-			r[it] = '.';
-		else
-			r[it] = ' ';
-		it++;
-	}
-	return r;
 }
 
 static void morsePipe()

@@ -2,157 +2,17 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
-
-char G_prosign = 0;
-
-char * morseEncode(char * x)
-{
-	switch (tolower(*x))
-	{
-	case 'a':
-		return ".-";
-	case 'b':
-		return "-...";
-	case 'c':
-		return "-.-.";
-	case 'd':
-		return "-..";
-	case 'e':
-		return ".";
-	case 'f':
-		return "..-.";
-	case 'g':
-		return "--.";
-	case 'h':
-		return "....";
-	case 'i':
-		return "..";
-	case 'j':
-		return ".---";
-	case 'k':
-		return "-.-";
-	case 'l':
-		return ".-..";
-	case 'm':
-		return "--";
-	case 'n':
-		return "-.";
-	case 'o':
-		return "---";
-	case 'p':
-		return ".--.";
-	case 'q':
-		return "--.-";
-	case 'r':
-		return ".-.";
-	case 's':
-		return "...";
-	case 't':
-		return "-";
-	case 'u':
-		return "..-";
-	case 'v':
-		return "...-";
-	case 'w':
-		return ".--";
-	case 'x':
-		return "-..-";
-	case 'y':
-		return "-.--";
-	case 'z':
-		return "--..";
-
-	//Digits
-	case '1':
-		return ".----";
-	case '2':
-		return "..---";
-	case '3':
-		return "...--";
-	case '4':
-		return "....-";
-	case '5':
-		return ".....";
-	case '6':
-		return "-....";
-	case '7':
-		return "--...";
-	case '8':
-		return "---..";
-	case '9':
-		return "----.";
-	case '0':
-		return "-----";
-
-	//Punctuation
-	case '&':
-		return ".-...";
-
-	case '\'':
-		return ".----.";
-
-	case '@':
-		return ".--.-.";
-
-	case ')':
-		return "-.--.-";
-
-	case '(':
-		return "-.--.";
-
-	case ':':
-		return "---...";
-
-	case ',':
-		return "--..--";
-
-	case '=':
-		return "-...-";
-
-	case '!':
-		return "-.-.--";
-
-	case '.':
-		return ".-.-.-";
-
-	case '-':
-		return "-....-";
-
-	case '+':
-		return ".-.-.";
-
-	case '"':
-		return ".-..-.";
-
-	case '?':
-		return "..--..";
-
-	case '/':
-		return "-..-.";
-
-	//Space
-	case ' ':
-	case '\n':
-		return "/";
-
-	//Prosign Mode
-	case '<': G_prosign = 1; return "";
-	case '>': G_prosign = 0; return "";
-
-	//Anything else we have no idea about
-	default:
-		return "#";
-	}
-}
+#include "include/libmorse.h"
 
 void morseArg(char * str)
 {
+	int prosign = 0;
 	char * stri = str;
 	do
 	{
-		char * m = morseEncode(stri);
+		char * m = morseEncode(stri, &prosign);
 		fputs(m, stdout);
-		if(!G_prosign)
+		if(!prosign)
 			fputc(' ', stdout);
 		fflush(stdout);
 		stri++;
@@ -163,11 +23,12 @@ void morseArg(char * str)
 void morsePipe()
 {
 	char t;
+	int prosign = 0;
 	while((t = fgetc(stdin)) != EOF)
 	{
-		char * m = morseEncode(&t);
+		char * m = morseEncode(&t, &prosign);
 		fputs(m, stdout);
-		if(!G_prosign)
+		if(!prosign)
 			fputc(' ', stdout);
 		fflush(stdout);
 	}
