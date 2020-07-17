@@ -1,9 +1,9 @@
-#include "include/libmorse.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include "include/libmorse.h"
 
 char * morseEncode(char * x, int * prosign)
 {
