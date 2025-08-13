@@ -7,7 +7,7 @@
 static void morseArg(char *str) {
     char *stri = str;
     char t[7];
-    t[7] = '\0';
+    t[6] = '\0';
     size_t i = 0;
     do {
         if (*stri == ' ' || *stri == '\0' || i == 6) {
@@ -30,7 +30,7 @@ static void morseArg(char *str) {
 
 static void morsePipe() {
     char t[7];
-    t[7] = '\0';
+    t[6] = '\0';
     size_t i = 0;
     while ((t[i] = fgetc(stdin)) != EOF) {
         if (t[i] == ' ' || i == 6) {
