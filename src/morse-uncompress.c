@@ -33,10 +33,12 @@ static void morsePipe() {
         strcat(p, m);
     }
 
-    /* Since compression works by putting storing 4 units in a byte
+    /* Since compression works by putting storing 4 units in a byte,
      * it is very likely that we have some trailing spaces at the end
-     * of extraction. This function will Remove trailing spaces from
-     * the output if nessacary
+     * of extraction.
+     *
+     * This function will remove trailing spaces
+     * from the output if necessary.
      */
     morseStrTrim(p);
 
