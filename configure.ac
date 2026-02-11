@@ -17,7 +17,8 @@ AC_SEARCH_LIBS([sin], [m])
 AC_SEARCH_LIBS([ao_initialize], [ao])
 
 # Checks for header files.
-AC_CHECK_HEADERS([string.h unistd.h ao/ao.h])
+AC_CHECK_HEADERS([string.h unistd.h])
+AC_CHECK_HEADERS([ao/ao.h], [have_ao=yes], [have_ao=no])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
@@ -26,5 +27,7 @@ AC_TYPE_SIZE_T
 AC_CHECK_FUNCS([memset])
 AM_PROG_AR
 LT_INIT
+
+AM_CONDITIONAL([HAVE_AO], [test "x$have_ao" = "xyes"])
 
 AC_OUTPUT
