@@ -29,5 +29,6 @@ AM_PROG_AR
 LT_INIT
 
 AM_CONDITIONAL([HAVE_AO], [test "x$have_ao" = "xyes"])
+AM_SILENT_RULES([yes])
 
 AC_OUTPUT
