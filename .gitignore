@@ -20,3 +20,5 @@
 /missing
 /morse-*
 /stamp-h1
+.zig-cache
+zig-out
